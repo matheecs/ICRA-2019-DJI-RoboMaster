@@ -1,0 +1,2 @@
+roborts_base:
+  serial_port : "/dev/serial_sdk"

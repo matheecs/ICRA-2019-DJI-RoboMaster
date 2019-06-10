@@ -1,0 +1,19 @@
+syntax = "proto2";
+package roborts_costmap;
+
+message Rect {
+    required double center_x = 1;
+    required double center_y = 2;
+    required double width = 3;
+    required double height = 4; 
+}
+message ParaCautionLayer {
+    required Rect caution_zone = 1;
+    required int32 caution_cost_value = 2;
+    required bool is_world = 3; //给定区域是world还是map上的点
+    required float initial_pose_x = 4;
+    required float initial_pose_y = 5; 
+    required float initial_pose_a = 6;
+}
+// caution_zone 的值可以通过代码中的mark_x_, mark_y_测试得到合适的值，
+// mark_x_, mark_y_是通过机器人此刻的姿态得到的

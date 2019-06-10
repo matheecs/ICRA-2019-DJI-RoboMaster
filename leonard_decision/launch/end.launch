@@ -1,0 +1,4 @@
+<launch>
+    <rosparam file="$(find leonard_decision)/config/icra2019.yaml" command="load"/>
+    <node pkg="leonard_decision" type="leonard_decision" name="leonard_decision" output="screen"/>
+</launch>

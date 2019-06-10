@@ -1,0 +1,23 @@
+#detection parameters
+video_ : 0 # camera index;
+enemy_color_ : 0       #BLUE 0 RED 1
+area_max_ : 2000   
+area_min_ : 0
+angle_max_ : 65
+angle_min_ : 27
+ratio_max_ : 3.9
+ratio_min_ : 1.2
+ratio_g_ : 33
+ratio_l_ : 1.7
+armor_plat_width_ : 0.130
+armor_plat_height_ : 0.55
+weight_max_ : 0.6
+blue_gray_min_ : 127
+red_gray_min_ : 115 
+blue_color_min_ : 110  #110
+red_color_min_ : 60
+x_os_ : 0
+y_os_ : 0.07
+z_os_ : 0.095
+pitch_os_ : -0.78
+yaw_os_ : -1.29

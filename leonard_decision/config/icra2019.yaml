@@ -1,0 +1,247 @@
+is_master: true
+
+# patrol point
+point_size: 4
+# start point:
+
+
+point0:
+  x: 1.5  #6.14
+  y: 4.5  #4.45
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   -2.53 #0
+
+point1:
+  x: 0.6     #6.73
+  y: 3.25   #0.82
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   0  #3.14
+
+point2:
+  x: 0.7    #1.26
+  y: 0.7    #1.02
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   0  #0
+
+point3:
+  x: 3       #2.49
+  y: 2.7       #4.64
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   -1.14
+
+
+## inner patrol point
+#inner_point_size: 3
+## start point:
+#inner_point0:
+#  x: 3
+#  y: 2.23
+#  z: 0
+#  roll:  0
+#  pitch: 0
+#  yaw:   -0.52
+## our buff:
+#inner_point1:
+#  x: 5
+#  y: 2.23
+#  z: 0
+#  roll:  0
+#  pitch: 0
+#  yaw:   0.52
+#
+#inner_point2:
+#  x: 5
+#  y: 3.25
+#  z: 0
+#  roll:  0
+#  pitch: 0
+#  yaw:   3.14
+
+
+
+inner_point_size: 4
+# start point:
+
+inner_point0:
+  x: 5          #6.14
+  y: 2.23       #4.45
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw: -2.62    #0
+
+inner_point1:
+  x: 7     #6.73
+  y: 0.5   #0.82
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   0  #3.14
+
+inner_point2:
+  x: 7.4    #1.26
+  y: 3.6    #1.02
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   1.57  #0
+
+inner_point3:
+  x: 5.4       #2.49
+  y: 3.25       #4.64
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   3.14
+
+# wait point
+wait_point_size: 2
+# start point:
+wait_point0:
+  x: 1.7
+  y: 4.5
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   -1.57
+# our buff:
+wait_point1:
+  x: 2.8
+  y: 4.6
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   -0.78
+
+
+escape:
+  left_x_limit: 2.5
+  right_x_limit: 5.5
+  robot_x_limit: 4
+  left_random_min_x: 0
+  left_random_max_x: 2.5
+  right_random_min_x: 5.5
+  right_random_max_x: 8
+
+whirl_vel:
+  angle_x_vel: 0
+  angle_y_vel: 0
+  angle_z_vel: 3
+
+
+search_region_1_1:
+  x: 3
+  y: 2.23
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   -0.52
+
+search_region_1_2:
+  x: 2
+  y: 0.7
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   3.14
+
+search_region_1_3:
+  x: 0.7
+  y: 1.5
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   1.57
+
+
+search_region_2_1:
+  x: 5
+  y: 2.23
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   -2.62
+
+search_region_2_2:
+  x: 6.3
+  y: 0.5
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   0
+
+search_region_2_3:
+  x: 7.3
+  y: 1.5
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   1.57
+
+
+
+search_region_3_1:
+  x: 1.7
+  y: 4.5
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   3.14
+
+search_region_3_2:
+  x: 0.6
+  y: 3.25
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   0
+
+search_region_3_3:
+  x: 3
+  y: 2.7
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   -1.14
+
+
+search_region_4_1:
+  x: 5.6
+  y: 3.1
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   0.55
+
+search_region_4_2:
+  x: 6.5
+  y: 4.3
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   0
+
+search_region_4_3:
+  x: 7.3
+  y: 3.1
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   -1.57
+
+
+supply_location:
+  x: 4.0
+  y: 4.25
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   -1.57

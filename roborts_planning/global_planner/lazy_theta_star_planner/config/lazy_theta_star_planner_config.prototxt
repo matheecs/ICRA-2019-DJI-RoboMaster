@@ -1,0 +1,9 @@
+inaccessible_cost: 253
+lazy_theta_inaccessible_cost: 90
+largest_distance_up: 5
+largest_distance_down: 15 #25
+goal_distance: 30
+heuristic_factor: 1.0
+goal_search_tolerance: 0.45
+cost_time: 2
+sample_threshold: 0.25

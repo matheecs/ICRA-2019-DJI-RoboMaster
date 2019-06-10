@@ -1,0 +1,9 @@
+<launch>
+    <!--Load parameters for localization node  -->
+    <rosparam command="load" file="$(find roborts_localization)/config/localization.yaml"/>
+    <rosparam command="load" file="$(find roborts_localization)/amcl/config/amcl.yaml"/>
+    <!-- Run the localization node -->
+    <node pkg="roborts_localization" type="localization_node" name="localization_node" respawn="false"/>
+    <node pkg="roborts_localization" type="supply_node" name="supply_node" respawn="false" output="screen"/>
+    <!-- <node pkg="roborts_localization" type="supply_node_version" name="supply_node_version" respawn="false" output="screen"/> -->
+</launch>

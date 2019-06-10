@@ -1,0 +1,107 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+%\usepackage{ctex}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[left=2.00cm, right=2.00cm, top=1.00cm, bottom=2.00cm]{geometry}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\author{}
+\date{}
+\title{Decision-making Framework}
+\begin{document}
+\maketitle
+
+{\LARGE Decision-making module are responsible for making decisions of cooperative robots that range from task planning to taking actions. Decision-making module is based on Learning Behavior Trees, which can improve interactions with environment.}
+
+
+In the AI Challenge, we adopt a novel framework that uses Reinforcement Learning (RL) and Behavior Trees to implement the decision-making module. Figure 1 shows the framework.
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.9\linewidth]{/Users/zhangjixiang/Downloads/多机器人决策/framework.eps}
+	\caption{The framework of decision-making module.}
+	\label{fig:framework}
+\end{figure}
+
+\section{Behaviour Tree with Learning Action Node}
+Behavior Trees (BT) are commonly used to model agents for robotics and games, where constrained behaviors must be designed by human experts in order to guarantee that these agents will execute a specific chain of actions given a specific set of perceptions. In such application areas, learning is a desirable feature to provide agents with the ability to adapt and improve interactions with environment, but often discarded due to its unreliability. In order to solve this problem, we utilize a new framework that uses Reinforcement Learning nodes as part of Behavior Trees to address the problem of adding learning capabilities in constrained agents.
+
+We let a Behaviour Tree be a directed tree, with nodes and edges. If two nodes are connected by an edge, we call the outgoing node the parent and the incoming node a child. Nodes that have no children are denoted leaves, and the one node without parents is denoted the root node. Now, each node of the BT is labeled as belonging to one of the six different types listed in Table 1. If the node is not a leaf it can be one of the first four types, \textit{Selector}, \textit{Sequence}, \textit{Parallel} or \textit{Decorator}, and if it is a leaf it is one of the last two types, \textit{Action} or \textit{Condition}[1]. Figure 2 presents the visual example of them.
+
+\begin{table}[tbph!]
+\caption{Types of a Behaviour Tree.}
+\centering
+\begin{tabular}{|c|c|c|c|}
+	\hline 
+	\textbf{Node type}& \textbf{Succeeds} & \textbf{Fails} & \textbf{Running} \\ 
+	\hline 
+	\hline
+	Selector& If one child succeeds & If all children fail & If one child returns running \\ 
+	\hline 
+	Sequence& If all children succeeds & If one child fails & If one child returns running \\ 
+	\hline 
+	Parallell & If N children succeeds & If M-N children fail & If all children return running \\ 
+	\hline 
+	Decorator& Varies & Varies & Varies \\ 
+	\hline 
+	\hline
+	Action& Upon completion & When impossible to complete & During completion \\ 
+	\hline 
+	Condition& If true & If false & Never \\ 
+	\hline 
+\end{tabular} 
+\end{table}
+
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{/Users/zhangjixiang/Downloads/多机器人决策/types.eps}
+	\caption{The visual representation of each node category. From left to right: Selector, Sequence, Parallell, Decorator, Action and Condition.}
+	\label{fig:types}
+\end{figure}
+
+
+In order to make Reinforcement Learning work together with Behavior Trees we propose the use of \textit{Learning Action Nodes}. In the Learning Action Node, we must choose how to represent the state $s$, the actions $A$, and the reward $r$, according to the task. Within this approach, Reinforcement Learning can be embedded into Behavior Trees in a modular and reusable way. Figure 3 shows a Behavior Tree which keeps a learning shoot node.
+
+Suppose, for example, a robot with an learning action node to “shoot”. This node can use RL in order to learn how to shoot a enemy and improve shooting skill to shoot a dynamic object in different positions. In this case, the state could be the position of the enemy relative to the robot’s gimbal, the actions could be the different joint configurations in the robot’s gimbal, and the reward function would return a positive value if the robot could shoot the enemy, otherwise it would return a negative value.
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{/Users/zhangjixiang/Downloads/多机器人决策/bt.eps}
+	\caption{A Behavior Tree which keeps a learning shoot node.}
+	\label{fig:bt}
+\end{figure}
+
+
+
+\section{Learning Method}
+
+We pick up a framework for modeling agents that follow behaviors strictly as modeled by a human expert, and still are able to learn from experience.
+
+Behavior Trees are used as the base modeling tool for our framework, due to their readability, maintainability and reusability. We also adopt Reinforcement Learning in order to support our modeling tool, providing the capacity to learn in real time with the agent experiences. With RL, agents can optimize actions in specific situations and be able to adapt to changes on the environment configuration and dynamics.
+
+To make a formal definition of learning action node, we exploit the Options approach for Hierarchical Reinforcement Learning. An \textit{option} is a generalization of an action in a way that it can call other options upon the execution, creating the idea of a hierarchy. Reminding that an option $\left\langle {\mathcal{I},\mu ,\beta } \right\rangle$ is only initiated if the state $s \in \mathcal{I}$, and while executing the option uses the policy $\mu$ to decide which option $o$ (action) will be executed, based on the history $h$ of past states, actions and rewards since the beginning of execution of that option. After that, the environment generates a new state $s^{\prime}$ with probability $P\left( {s^{\prime}|s,o} \right)$. We argue that, the Behavior Tree defined here can be modeled as a specialization of an Option-based Hierarchical Reinforcement Learning. We can prove that a learning action node can be seen as an option with $\mathcal{I}=\mathcal{S}$, with actions $a\in A_{s}$, a termination condition $\beta$, and a policy $\mu$ to be learned[2]. As a result, we can exploit the features provided from the Options framework[3], such as: learning action nodes can be trained using \textbf{Q-Learning}. And the corresponding Q-learning update is:
+\begin{equation}
+{Q_{k + 1}}\left( {s,o} \right) = \left( {1 - {\alpha _k}} \right){Q_k}\left( {s,o} \right) + {\alpha _k}\left[ {r + {\gamma ^\tau }\underset{o' \in {\mathcal{O}_{s'}}}{\max}{Q_k}\left( {s',o'} \right)} \right]
+\end{equation}
+where ${\alpha_k}$ is a time-varying learning-rate parameter, $\gamma  \in \left[ {0,1} \right]$ is a discount-rate parameter, $\mathcal{O}=\bigcup\nolimits_{s \in \mathcal{S}} {{\mathcal{O}_s}}$ is the set of all options, $\tau$ is the time steps, $Q(s,o)$ denotes the option-value function of taking an option $o$ while in a state $s$. 
+We also validate our framework empirically using experiments in simulated shoot scenarios. The experiments show how to use the expert knowledge to model the behavior choices without interference of the learning nodes, and confirms that nested learning nodes can converge and work with temporal actions.
+
+
+
+
+
+\section{References}
+\noindent
+[1] Ogren, Petter. "Increasing modularity of UAV control systems using computer game behavior trees." Aiaa guidance, navigation, and control conference. 2012.
+
+\noindent
+[2] Pereira, Renato de Pontes, and Paulo Martins Engel. "A framework for constrained and adaptive behavior-based agents." arXiv preprint arXiv:1506.02312 (2015).
+
+\noindent
+[3] Sutton, Richard S., and Andrew G. Barto. "Reinforcement learning: An introduction." (2011).
+APA	
+
+
+\end{document}

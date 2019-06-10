@@ -1,0 +1,18 @@
+<launch>
+    <!-- <node name="master_discovery" pkg="master_discovery_fkie" type="master_discovery">
+        <param name="mcast_group" value="224.0.0.1" />
+    </node>
+
+    <node name="master_sync" pkg="master_sync_fkie" type="master_sync">
+        <rosparam param="sync_topics">
+        [/master/goal_task,/wing/goal_task,/master/sync_state,/wing/sync_state]
+        </rosparam>
+        <rosparam param="ignore_services">[/*]</rosparam>
+    </node> -->
+
+<group ns="master">
+    <rosparam file="$(find icra_decision)/config.yaml" command="load"/>
+    <node pkg="icra_decision" type="icra_decision" name="decision_node" output="screen"/>
+    <!-- <node pkg="icra_decision" type="icra_decision" name="decision_node" output="screen" launch-prefix="gdb -ex run -args"/> -->
+</group>
+</launch>

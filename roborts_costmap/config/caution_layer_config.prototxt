@@ -1,0 +1,12 @@
+caution_zone {
+    center_x: 4.05
+    center_y: 0.55 # 对面是4.6，不能到达这一方的补给区
+    width: 0.75 #1.00
+    height: 0.75 #1.00
+}
+caution_cost_value: 254 #100
+is_world: true
+initial_pose_x : 7.5 # 0.5
+initial_pose_y : 0.5 # 0 
+initial_pose_a : 1.57 # 逆时针旋转90
+#initial这几个值应与localization模块的值一致

@@ -1,0 +1,4 @@
+<launch>
+    <rosparam command="load" file="$(find sub_cam)/config/param.yaml" ns="sub_cam" />
+    <node pkg="sub_cam" type="sub_cam_node" name="sub_cam_node" respawn="false" output="screen" /> 
+</launch>

@@ -1,0 +1,177 @@
+is_master: true
+
+# Master: Start from Buff;
+# Wing:   Start from Origin.
+
+# Enemy Field (Left Corner)
+enemy_field_supplier:
+  x_min: 3.5
+  y_min: 0
+enemy_field_buff:
+  x_min: 1.2
+  y_min: 2.75
+
+# Supplier and Buff Goals
+supplier_location:
+  x: 4.1
+  y: 4.2
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   -1.57
+buff_location:
+  x: 6.3
+  y: 1.75
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   0
+near_enemy_supplier_location:
+  x: 5.0
+  y: 2.0
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   -2
+near_enemy_buff_location:
+  x: 3.0
+  y: 2.0
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   2
+
+# Patrol Goals
+point_size: 4
+point0:
+  x: 0.5
+  y: 0.5
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   0
+point1:
+  x: 2.25
+  y: 1.9
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   0
+point2:
+  x: 6.3
+  y: 1.75
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   0
+point3:
+  x: 5.25
+  y: 4.25
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   0
+
+# Escape Parameters
+escape:
+  left_x_limit: 2.5
+  right_x_limit: 5.5
+  robot_x_limit: 4
+  left_random_min_x: 0
+  left_random_max_x: 2.5
+  right_random_min_x: 5.5
+  right_random_max_x: 8
+# Whirl Parameters
+whirl_vel:
+  angle_x_vel: 0
+  angle_y_vel: 0
+  angle_z_vel: 3
+
+# Search Parameters
+search_region_1_1:
+  x: 2.86
+  y: 2.50
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   -1.57
+search_region_1_2:
+  x: 1.78
+  y: 0.94
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   3.14
+search_region_1_3:
+  x: 0.5
+  y: 2.18
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   1.57
+
+search_region_2_1:
+  x: 5.35
+  y: 0.8
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   0
+search_region_2_2:
+  x: 7.50
+  y: 2.10
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   1.57
+search_region_2_3:
+  x: 5.35
+  y: 2.24
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   3.14
+
+search_region_3_1:
+  x: 3.05
+  y: 4.50
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   3.14
+search_region_3_2:
+  x: 0.8
+  y: 4.02
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   -1.57
+search_region_3_3:
+  x: 2.84
+  y: 3.00
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   0
+
+search_region_4_1:
+  x: 5.55
+  y: 2.93
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   1.57
+search_region_4_2:
+  x: 5.60
+  y: 4.34
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   0
+search_region_4_3:
+  x: 7.33
+  y: 3.05
+  z: 0
+  roll:  0
+  pitch: 0
+  yaw:   -1.57

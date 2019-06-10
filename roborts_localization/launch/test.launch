@@ -1,0 +1,3 @@
+<launch>
+       <node pkg="roborts_localization" type="test_client_node" name="test_client_node" respawn="false" />
+</launch>

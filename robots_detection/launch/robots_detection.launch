@@ -1,0 +1,4 @@
+<launch>
+    <rosparam command="load" file="$(find robots_detection)/config/param.yaml" ns="robots_detection" />
+    <node pkg="robots_detection" type="robots_detection_node" name="robots_detection_node" respawn="false" output="screen" /> 
+</launch>

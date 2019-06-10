@@ -1,0 +1,57 @@
+opt_frame {
+    odom_frame: "odom"
+    map_frame: "map"
+}
+
+trajectory_opt {
+    global_plan_overwrite_orientation: true 
+    max_global_plan_lookahead_dist: 2.0
+    feasibility_check_no_poses: 5
+}
+
+kinematics_opt {
+    max_vel_x: 2.5
+    min_vel_x: 0.05
+    max_vel_x_backwards: -2.5
+    max_vel_y: 2.5
+    min_vel_y: 0.05
+    max_vel_theta: 2.5
+    min_vel_theta: -2.5
+    min_in_place_vel_th: 0.4
+    acc_lim_x: 2
+    acc_lim_y: 2
+    acc_lim_theta: 2
+}
+
+tolerance_opt {
+    xy_goal_tolerance: 0.1
+    yaw_goal_tolerance: 0.1
+}
+
+obstacles_opt {
+    costmap_obstacles_behind_robot_dist: 0.1
+}
+
+
+optimize_info {
+    heading_lookahead: 0.325
+    dwa: false
+    heading_scoring: false
+    simple_attractor: false
+    holonomic_robot: true
+    vx_samples: 20
+    vy_samples: 20
+    vtheta_samples: 20
+    sim_time: 1.0
+    sim_granularity: 0.025
+    angular_sim_granularity: 0.025
+    heading_scoring_timestep: 0.1
+    pdist_scale: 0.6
+    gdist_scale: 0.8
+    occdist_scale: 0.2
+    sim_period: 0.1
+    escape_reset_dist: 0.1
+    escape_reset_theta: 1.57
+    oscillation_reset_dist: 0.05
+}
+

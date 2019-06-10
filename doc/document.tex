@@ -1,0 +1,172 @@
+\documentclass[12pt]{ctexart}
+\usepackage[utf8]{inputenc}
+%\usepackage{ctex}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[left=2.00cm, right=2.00cm, top=2.00cm, bottom=2.00cm]{geometry}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\author{}
+\date{}
+\title{\textbf{多机器人的决策}}
+\begin{document}
+%\maketitle
+
+%\newpage
+%\section{MADDPG}
+%多机器人决策模块用于解决如何让两台机器人高效地协作并击败对手的问题。单个机器人本身应该具有目标感知、自主导航、追踪和射击的能力，而两台机器人协作时要求进行更高级策略的决策。常见的高级策略有：决定我方两台机器人是否同时攻击一台敌方机器人，如何实时规划机器人出现在场地的位置，血量过低时采取什么动作等。即使只考虑四台机器人2v2的策略决策，传统方法，如多条件判断、状态机和决策树，都很难覆盖所有可能的情况，要求我们用新的方法取代传统方法。
+%
+%为此，我们采用多智能体强化学习(RL)来解决多机器人对抗与协作的难题。强化学习能让多台机器人在比赛中或仿真环境中自主学习，并把学到的经验运用到以后的决策中去，反复迭代训练，最终提升机器人的智能决策水平。决策模块与感知、规划和控制的通信机制如图\ref{fig:sys} 所示。决策模块从感知模块获取所需信息，包括图像、机器人姿态、敌方目标、血量，决策的策略输出用于规划和控制模块。
+%
+%\begin{figure}[tbph!]
+%	\centering
+%	\includegraphics[width=0.6\linewidth]{决策系统}
+%	\caption{决策与其他模块的通信}
+%	\label{fig:sys}
+%\end{figure}
+%
+%如何有效地训练模型是实现多机器人智能决策的关键。然而传统的RL方法，比如Q-Learning或Policy Gradient都不适用于多智能体环境。一方面，训练过程中每个智能体都在变化，从每个智能体的角度来看，环境都会变得不稳定。这给训练的稳定性带来了挑战，并且阻碍了直接利用先前的经验重放，这对于确保Q-Learning的稳定性至关重要。另一方面，Policy Gradient算法的方差会随着智能体数目的增加变得更大。综合考虑，我们最终选用Artor-Critic方法的一种变体——\textbf{MADDPG}(Multi-Agent Deep Deterministic Policy Gradient)。MADDPG的架构如图\ref{fig:maddpg}和图\ref{fig:algo}。
+%
+%\begin{figure}[tbph!]
+%	\centering
+%	\includegraphics[width=0.6\linewidth]{MADDPG}
+%	\caption{MADDPG算法架构}
+%	\label{fig:maddpg}
+%\end{figure}
+%
+%\begin{figure}[tbph!]
+%	\centering
+%	\includegraphics[width=0.9\linewidth]{algo}
+%	\caption{MADDPG算法伪代码}
+%	\label{fig:algo}
+%\end{figure}
+%
+%\newpage
+%\paragraph{MADDPG算法的约束条件}
+%\begin{enumerate}
+%	\item 学习的策略在执行期间只能使用本地信息
+%	\item 我们不需要假设环境的可微分动力学模型
+%	\item 不用对智能体的通信方法做结构上的假设
+%\end{enumerate}
+%机器人比赛场景满足MADDPG算法的约束条件，故我们能采用\textbf{分散执行、集中训练}的框架来实现我们的目标。
+%
+%
+%\paragraph{Actor更新}
+%
+%考虑Policy由$\theta=\{\theta_1,...,\theta_N\}$参数化的具有$N$个智能体的博弈，令所有智能体策略的集合为$\pi=\{\pi_1,...,\pi_N\}$。则智能体$i$的期望收益$J(\theta_i)=\mathbb{E}[R_i]$的梯度
+%\begin{equation}
+%\nabla_{\theta_j}J(\theta_i) = \mathbb{E}_{s\sim p^{\boldsymbol\mu},a_i\sim {\boldsymbol\pi}_i}[\nabla_{\theta_i}\log{\boldsymbol\pi}_i(a_i|o_i)Q^{\boldsymbol\pi}_i(\mathbf{x},a_1,...,a_N)]
+%\end{equation}
+%其中$Q_i^{\boldsymbol\pi}(\mathbf{x},a_1,...,a_N)$是一个集中的动作值函数，它将所有智能体的动作$a_1,...,a_N$，加上一些状态信息$\mathbf{x}$作为输入，然后输出智能体$i$的$Q$值。在最简单的情况下，$\mathbf{x}$可以包含所有智能体的观测值，$x =(o_1,...,o_N)$，但是如果允许的话，我们也可以包含附加的状态信息。由于每个$Q_{i}^{{\boldsymbol\pi}}$是分开学习的，智能体可以有任意的奖励方式，包括在竞争环境中相互冲突的奖励。
+%
+%我们可以将上述想法扩展到确定性策略。如果我们现在考虑$N$个策略$\boldsymbol{\mu}_{\theta_i}$，参数为$\theta_i$，缩写为$\boldsymbol{\mu}_i$，那么梯度为
+%\begin{equation}
+%\nabla_{\theta_i}J(\boldsymbol{\mu}_i)=\mathbb{E}_{\mathbf{x},a\sim D}[\nabla_{\theta_i}\boldsymbol{\mu}_i(a_i|o_i)\nabla_{a_i}Q_i^{\boldsymbol{\mu}}(\mathbf{x},a_1,...,a_N)|_{a_i=\boldsymbol{\mu}_i(o_i)}]
+%\end{equation}
+%经验重放缓冲区$D$包含元组$(\mathbf{x},\mathbf{x}',a_1,...,a_N,r_1,...,r_N)$，记录了所有智能体的经验。
+%
+%
+%\paragraph{Critic更新}
+%集中的动作值函数$Q_i^{\boldsymbol\mu}$按如下方式更新
+%\begin{equation}
+%\mathcal{L}(\theta_i)=\mathbb{E}_{\mathbf{x},a,r,\mathbf{x}'}[(Q_i^{\boldsymbol\mu}(\mathbf{x},a_1,...,a_N)-y)^2],\,\,y=r_i+\gamma Q^{\boldsymbol\mu'}_i(\mathbf{x}',a_1',...,a'_N)|_{a'_j={\boldsymbol\mu}'_j(o_j)}
+%\end{equation}
+%其中$\boldsymbol\mu'=\{\boldsymbol\mu_{\theta'_1},...,\boldsymbol\mu_{\theta'_N}\}$是具有延迟参数$\theta'_i$
+%的目标策略集合。仿真结果表明具有确定性策略的集中式Critic在实践中运作良好。
+%
+%MADDPG背后的一个主要动机是，如果我们知道所有智能体采取的行动，即使策略发生变化，环境也是稳定的，因为对于任何${\boldsymbol\pi}_i\neq{\boldsymbol\pi}'_i$，有$P(s'|s,a_1,...,a_N)=P(s'|s,a_1,...,a_N,{\boldsymbol\pi}'_1,...,{\boldsymbol\pi}'_N)$。只要我们没有像大多数传统的RL方法那样，明确地以其他智能体的行为作为条件，那么就没关系。
+%
+%注意到我们在方程(3)中需要用到其他智能体的策略进行更新。知晓其他智能体的观测值和策略并不是特别严苛的假设；如果我们的目的是训练智能体展现出在模拟环境下的复杂通信行为，那么这些信息通常可供所有智能体使用。但是，如果有必要的话，我们可以放松这个假设，通过从观测中学习其他智能体的策略。
+
+
+\newpage
+\section{决策系统架构}
+机器人的决策系统(图\ref{fig:decision})采用传统方法与强化学习结合的思路，由两个子模块组成：单机器人战术决策与多机器人战略决策。单机器人战术决策模块负责高精度射击目标；多机器人战略决策模块负责两机器人之间的协作与任务分配。
+
+
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.4\linewidth]{/Users/zhangjixiang/Downloads/多机器人决策/架构.eps}
+	\caption{决策系统架构}
+	\label{fig:decision}
+\end{figure}
+
+\section{单机器人的战术决策}
+单机器人的底层控制采用传统控制与神经网络混合的方法，用来提高目标打击的效率。单机器人的控制量最终输出则为传统控制量$\pi(x)$与神经网络输出控制量$\pi_{DL}(x)$的加权
+\begin{equation}
+\mathbf{u} = \lambda_{1}\pi(\mathbf{x})+ \lambda_{2}\pi_{DL}(\mathbf{x})
+\end{equation}
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.9\linewidth]{/Users/zhangjixiang/Downloads/多机器人决策/混合控制.eps}
+	\caption{混合控制}
+	\label{fig:hybrid}
+\end{figure}
+
+我们采用Policy Gradient强化学习方法来训练神经网络控制器。传统控制量与神经网络输出控制量的加权作为混合控制器的输出，混合控制器的表现由裁判系统的信息评估，并产生Reward用于Policy Gradient的计算。
+
+\paragraph{单机器人决策系统训练步骤}
+\begin{enumerate}
+	\item 初始化$\pi_{DL}$的网络参数为$\theta$；
+	\item 机器人与环境互动，在真实场地或仿真环境中让机器人对战，采集每次比赛的State(包括图像、IMU、定位等信息)、Action(地盘与云台电机的控制指令、射击指令)和Reward信息。记第$i$次比赛收集的数据集为$R(\tau^{i})=\{(s_{j}^i,a_{j}^i)\},\,j=1,2,\cdots$；
+	\item 计算Gradient
+		\begin{equation}\label{key}
+		\nabla\bar{R}_{\theta} = \frac{1}{N}\sum\limits_{n = 1}^N {\sum\limits_{t = 1}^{{T_n}} {R({\tau ^n})\nabla } } \log {p_\theta }(a_t^n|s_t^n)
+		\end{equation}
+		更新Policy
+		\begin{equation}\label{key}
+		\theta  \leftarrow \theta  + \mu \nabla {\bar R_\theta }
+		\end{equation}
+	\item 重复执行步骤2、3，直到训练完成。
+\end{enumerate}
+为了提高训练效率，我们可以动态调节权重：开始训练时选取$\lambda_{1} > \lambda_{2}$的权重分配，Policy Gradient先向传统控制器学习；然后逐渐增大$\lambda_{2}$，减小$\lambda_{1}$，提高收敛速度。
+
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{/Users/zhangjixiang/Downloads/多机器人决策/RL.eps}
+	\caption{用Policy Gradient训练单机器人决策网络}
+	\label{fig:rl}
+\end{figure}
+
+
+%\newpage
+\section{多机器人的战略决策}
+单机器人作战强调战术，多机器人制胜的关键则是战略。战略决策主要包括机器人之间的协作和任务分配。同样，我们采用了传统方法结合机器学习方法的思路。我们采用状态机表示策略、神经网络实现状态间跳转逻辑的方法。神经网络的输入是机器人现在和过去一段时间的状态以及传感器的信息，输出是可能要跳转的状态的概率。我们选择一个概率最大的状态跳转过去。假设每个机器人含$N$种状态$\{State_{1},\cdots,State_{N}\}$(图\ref{fig:fsm})，则两机器人协作的状态数量为两者的组合，记为$\{(State_{i},State_{j})\},\,i,j\in\{1,\cdots,N\}$。我们用强化学习里的Advantage Actor-Critic (A2C)方法来训练状态跳转神经网络。
+
+\paragraph{多机器人决策系统训练步骤}
+\begin{enumerate}
+	\item 初始化Actor，即Policy为$\pi$；
+	\item 让Actor与环境互动，在真实场地或仿真环境中让两台机器人并肩作战，采集每次比赛的State(包括图像、IMU、定位等信息)、Action(状态机跳转的状态)和Reward信息；
+	\item 用Temporal-Difference或Monte-Carlo方法估计Critic，即Value函数$V^{\pi}(s)$；
+	\item 计算Gradient
+	\begin{equation}\label{key}
+	\nabla\bar{R}_{\theta} \approx \frac{1}{N}\sum\limits_{n = 1}^N {\sum\limits_{t = 1}^{{T_n}} {(r_{t}^{n}+V^{\pi}(s_{t+1}^{n})-V^{\pi}(s_{t}^{n}))\nabla } } \log {p_\theta }(a_t^n|s_t^n)
+	\end{equation}
+	更新Policy的参数
+	\begin{equation}\label{key}
+	\theta  \leftarrow \theta  + \mu \nabla {\bar R_\theta }
+	\end{equation}
+	\item 重复执行步骤2、3、4，直到训练完成。
+\end{enumerate}
+为了提高训练效率，我们让Actor网络和Critic网络的部分网络层共享参数。
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{/Users/zhangjixiang/Downloads/多机器人决策/多机器人.eps}
+	\caption{用A2C训练神经网络}
+	\label{fig:a2c}
+\end{figure}
+
+
+\begin{figure}[tbph!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{/Users/zhangjixiang/Downloads/多机器人决策/状态机.eps}
+	\caption{单机器人状态机示意图}
+	\label{fig:fsm}
+\end{figure}
+
+
+\end{document}

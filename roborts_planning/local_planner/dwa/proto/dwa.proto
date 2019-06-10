@@ -1,0 +1,70 @@
+syntax = "proto2";
+
+package roborts_local_planner;
+message DWAFrameID {
+    optional string odom_frame = 1;
+    optional string map_frame = 2;
+}
+   
+message DWATrajectory {
+    optional bool global_plan_overwrite_orientation = 1;
+    optional double max_global_plan_lookahead_dist = 2;
+    optional int64 feasibility_check_no_poses = 3;
+}
+
+message DWARobot {
+    optional double max_vel_x = 1;
+    optional double min_vel_x = 2;
+    optional double max_vel_x_backwards = 3;
+    optional double max_vel_y = 4;
+    optional double min_vel_y = 5;
+    optional double max_vel_theta = 6;
+    optional double min_vel_theta = 7;
+    optional double min_in_place_vel_th = 8;
+    optional double acc_lim_x = 9;
+    optional double acc_lim_y = 10;
+    optional double acc_lim_theta = 11;
+}
+
+message DWAGoalTolerance {
+    optional double xy_goal_tolerance = 1;
+    optional double yaw_goal_tolerance = 2;
+}
+    
+
+message DWAObstacles {
+    optional double costmap_obstacles_behind_robot_dist = 1;
+}
+    
+
+message DWAOptimization {
+    optional double heading_lookahead = 1;
+    optional bool dwa = 2;
+    optional bool heading_scoring = 3;
+    optional bool simple_attractor = 4;
+    optional bool holonomic_robot = 5;
+    optional double vx_samples = 6;
+    optional double vy_samples = 7;
+    optional double vtheta_samples = 8;
+    optional double sim_time = 9;
+    optional double sim_granularity = 10;
+    optional double angular_sim_granularity = 11;
+    optional double heading_scoring_timestep = 12;
+    optional double pdist_scale = 13;
+    optional double gdist_scale = 14;
+    optional double occdist_scale = 15;
+    optional double sim_period = 16;
+    optional double escape_reset_dist = 17;
+    optional double escape_reset_theta = 18;
+    optional double oscillation_reset_dist = 19;
+}
+
+message DWAConfig {
+    optional DWAFrameID opt_frame = 1;
+    optional DWATrajectory trajectory_opt = 2;
+    optional DWARobot kinematics_opt = 3;
+    optional DWAGoalTolerance tolerance_opt = 4;
+    optional DWAObstacles obstacles_opt = 5;
+    optional DWAOptimization optimize_info = 6;
+}
+

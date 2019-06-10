@@ -1,0 +1,40 @@
+#localization
+localization:
+  odom_frame_id: "odom"
+  base_frame_id: "base_link"
+  global_frame_id: "map"
+  laser_topic_name: "scan"
+  transform_tolerance: 0.1
+  #8.40 #1.0
+  #14.35 #1.0
+  initial_pose_x: 7.5 # 1
+  initial_pose_y: 0.5 #1
+  initial_pose_a: 1.57 #3.14
+  initial_cov_xx: 0.1
+  initial_cov_yy: 0.1
+  initial_cov_aa: 0.1
+
+#supply pid
+supply_pid:
+  x_p: 2
+  y_p: 1.8
+  z_p: 1.8
+  x_tolerance: 0.05
+  y_tolerance: 0.08
+  z_tolerance: 0.18
+  target_supply_pose_x: 0.53 #机装前方时 0.38  标签在机器人坐标系x正方向0.53 (这里的机器人坐标系是指用前摄像头看时)
+  target_supply_pose_y: 0  #0.06 # 标签在机器人坐标系y正方向0.06
+  target_supply_pose_z: 0 #标签在机器人坐标系0.52
+  max_supply_speed: 0.35
+
+  target_supply_pose_x_map: 4.0
+  target_supply_pose_y_map: 4.26
+  target_supply_pose_x_map_2: 4.25
+  target_supply_pose_y_map_2: 4.26 #4.4
+  target_supply_pose_x_map_3: 4.0
+  target_supply_pose_y_map_3: 4.26 #4.4
+  target_supply_pose_x_map_4: 4.25
+  target_supply_pose_y_map_4: 4.26 #4.4
+  target_supply_pose_x_map_5: 4.0
+  target_supply_pose_y_map_5: 4.26 #4.4
+  target_supply_pose_z_map: -1.57 #相机装前方时 +1.57079632679489661923

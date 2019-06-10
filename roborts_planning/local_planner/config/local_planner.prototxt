@@ -1,0 +1,5 @@
+name: "timed_elastic_band"
+#name: "dwa"
+#selected_algorithm: "dwa"
+selected_algorithm: "timed_elastic_band"
+frequency: 100

@@ -1,0 +1,2 @@
+geometry_msgs/PoseStamped enemy_pos
+bool detected

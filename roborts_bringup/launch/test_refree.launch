@@ -1,0 +1,4 @@
+<launch>
+    <rosparam file="$(find roborts_base)/config/test_refree_parameter.yaml" command="load" ns="roborts_base"/>
+    <node pkg="roborts_base" type="test_refree_node" name="test_refree_node" output="screen"/>
+</launch>

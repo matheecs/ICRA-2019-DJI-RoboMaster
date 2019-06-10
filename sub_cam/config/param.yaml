@@ -1,0 +1,11 @@
+#sub_cam parameters
+video_ : 1 # camera index;
+enemy_color_ : 0       #BLUE 0 RED 1
+area_max_ : 2000   
+area_min_ : 0
+angle_max_ : 65
+angle_min_ : 27
+gray_min_ : 230
+color_min_ : 140
+red_ap_min_: 37
+blue_ap_min_: 10

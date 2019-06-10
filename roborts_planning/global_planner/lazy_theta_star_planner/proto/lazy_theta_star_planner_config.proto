@@ -1,0 +1,16 @@
+syntax = "proto2";
+package roborts_global_planner;
+
+// largest_distance_up  : when the distance between current point and goal > goal_distance, use this largest distance
+// largest_distance_down: when the distance between current point and goal <= goal_distance, use this largest distance
+message LazyThetaStarPlannerConfig {
+    optional uint32 inaccessible_cost = 1 [default = 253];
+    optional uint32 lazy_theta_inaccessible_cost = 2 [default = 180];
+    optional uint32 largest_distance_up = 3 [default = 5];
+    optional uint32 largest_distance_down = 4 [default = 20];
+    optional uint32 goal_distance = 5 [default = 20];
+    optional float heuristic_factor = 6 [default = 1.0];
+    optional float goal_search_tolerance = 7 [default = 0.25];
+    required int32 cost_time = 8;
+    required float sample_threshold = 9;
+}

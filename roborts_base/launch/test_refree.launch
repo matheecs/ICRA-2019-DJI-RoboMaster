@@ -1,0 +1,30 @@
+<launch>
+    <master auto="start"/>
+    <node name="master_discovery" pkg="master_discovery_fkie" type="master_discovery">
+        <param name="mcast_group" value="224.0.0.1"/>
+    </node>
+
+    <node name="master_sync" pkg="master_sync_fkie" type="master_sync">
+        <!-- Since version 0.7.4:
+          For all sync_* and ignore_* parameter you can use follow structure to define filter for specific hosts:
+          <rosparam param="sync_topics">
+              - hostname:
+                - filter
+          </rosparam>
+        -->
+
+        <!-- The list of topics, which are to be ignored while a synchroniation. The ~ignore_nodes list is processed first.
+        These are defaults and cannot be removed: ['/rosout', '/rosout_agg'] -->
+        <rosparam param="sync_topics">
+            [/master/goal_task,/wing/goal_task
+            ,/master/game_status,/master/field_bonus_status,/master/field_supplier_status,
+            /master/robot_bonus,/master/projectile_supply,/master/amcl_pose,
+            /wing/game_status,/wing/field_bonus_status,/wing/field_supplier_status,/wing/robot_bonus,
+            /wing/projectile_supply,/wing/amcl_pose
+            ]
+        </rosparam>
+        <rosparam param="ignore_services">[/*]</rosparam>
+    </node>
+    <rosparam file="$(find roborts_base)/config/test_refree_parameter.yaml" command="load" ns="roborts_base"/>
+    <node pkg="roborts_base" type="test_refree_node" name="test_refree_node" output="screen"/>
+</launch>
